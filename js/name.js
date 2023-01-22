@@ -1,39 +1,20 @@
-// ポケモンの日本語、英語名、jsonファイル
-[
-    {
-        "ja": "フシギダネ",
-        "en": "Bulbasaur"
-    },
-    {
-        "ja": "フシギソウ",
-        "en": "Ivysaur"
-    },
-    {
-        "ja": "フシギバナ",
-        "en": "Venusaur"
-    },
-    {
-        "ja": "ヒトカゲ",
-        "en": "Charmander"
-    },
-    {
-        "ja": "リザード",
-        "en": "Charmeleon"
-    },
-    {
-        "ja": "リザードン",
-        "en": "Charizard"
-    },
-    {
-        "ja": "ゼニガメ",
-        "en": "Squirtle"
-    },
-    {
-        "ja": "カメール",
-        "en": "Wartortle"
-    },
-    {
-        "ja": "カメックス",
-        "en": "Blastoise"
-    }
-]
+// 検索をクリック後、入力内容の英語名をId('pokename_en')に書く
+$(function() {
+    $('#bth').on('click', function() {
+        var element = document.getElementById('pokename_en');
+        element.innerHTML = namelist[$('#pokename').val()]
+    });
+});
+
+// 各ポケモンの日本語名と英語名
+var namelist = {
+    "フシギダネ": "bulbasaur",
+    "フシギソウ": "ivysaur",
+    "フシギバナ": "venusaur",
+    "ヒトカゲ": "charmander",
+    "リザード": "charmeleon",
+    "リザードン": "charizard",
+    "ゼニガメ": "squirtle",
+    "カメール": "wartortle",
+    "カメックス": "blastoise"
+};
