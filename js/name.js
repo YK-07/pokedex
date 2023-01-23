@@ -2,12 +2,12 @@
 $(function() {
     $('#bth').on('click', function() {
         var element = document.getElementById('pokename_en');
-        element.innerHTML = namelist[$('#pokename').val()]
+        element.innerHTML = nameList[$('#pokename').val()]
     });
 });
 
 // 各ポケモンの日本語名と英語名
-var namelist = {
+var nameList = {
     "フシギダネ": "bulbasaur",
     "フシギソウ": "ivysaur",
     "フシギバナ": "venusaur",
@@ -16,5 +16,6 @@ var namelist = {
     "リザードン": "charizard",
     "ゼニガメ": "squirtle",
     "カメール": "wartortle",
-    "カメックス": "blastoise"
+    "カメックス": "blastoise",
+    "キノガッサ": "breloom"
 };
