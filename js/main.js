@@ -2,15 +2,19 @@ $(function() {
   $('#bth').on('click', function() {
     // name.jsで処理したポケモンの英語名を変数に入れる
     var pokeNameEng = document.getElementById("pokename_en").innerHTML;
-    //document.getElementById("pokename_en").style.display ="none";//英語名を隠す
+    document.getElementById("pokename_en").style.display ="none";//英語名を隠す
 
     // ポケモンの基本データ用 url
-    url_base = "https://pokeapi.co/api/v2/pokemon/" + pokeNameEng + "/"
+    var url_base = "https://pokeapi.co/api/v2/pokemon/" + pokeNameEng + "/";
 
     // 図鑑用 url species:種族
-    url_spe = "https://pokeapi.co/api/v2/pokemon-species/" + pokeNameEng + "/"
+    var url_spe = "https://pokeapi.co/api/v2/pokemon-species/" + pokeNameEng + "/";
 
-    
+
+    //var target = document.querySelector('#pokeNumName');
+    //target.parentNode.removeChild(target);// 画像しか表示されなくなった
+    //var target = document.querySelector('#pokeDscrpt');
+    //target.parentNode.removeChild(target);    
 
     //基本データ受け取り base ********
     const request_base = new XMLHttpRequest();
@@ -19,21 +23,33 @@ $(function() {
     request_base.addEventListener("load", function () {
       var res_base = JSON.parse(this.responseText);
 
-      // ポケモンの番号を取得
-      var number = String(res_base.id)
-      console.log("No." + number)
+      // id"pokeNumName"要素を取得
+      var PokeNumName = document.querySelector('#pokeNumName');
+      // id"pokeImage"要素を取得
+      var PokeImage = document.querySelector('#pokeImage');
+      // id"pokeDscrpt"要素を取得
+      var PokeDscrpt = document.querySelector('#pokeDscrpt');
 
       // ポケモンの画像を取得
-      var image = res_base.sprites.other['official-artwork'].front_default;
-      console.log(image);
+      var image = '<img src="' + res_base.sprites.other['official-artwork'].front_default + '">';
+      PokeImage.innerHTML = image;
 
-      // ポケモンの高さを取得
-      var height = String((res_base.height / 10).toFixed(1));
-      console.log(height + "メートル")
+      // ポケモンの番号を取得
+      var number = String(res_base.id)
+      if (number.length == 1) {
+        var number = "No.00" + number;
+      } else if (number.length == 2) {
+        var number = "No.0" + number;
+      } else {
+        var number = "No." + number;
+      }
 
-      // ポケモンの重さを取得
-      var weight = String((res_base.weight / 10).toFixed(1));
-      console.log(weight + "キログラム")
+      PokeNumName.insertAdjacentHTML("beforebegin",'<p>'+number+'</p>');
+
+      // ポケモンの高さと重さを取得
+      var height = String((res_base.height / 10).toFixed(1)) + "メートル";
+      var weight = String((res_base.weight / 10).toFixed(1)) + "キログラム";
+      PokeDscrpt.insertAdjacentHTML("beforebegin",'<p>'+height+' / '+weight+'</p>');
 
       // ポケモンのタイプ、日本語と英語名
       typesList = {
@@ -52,7 +68,7 @@ $(function() {
         var type2 = typesList[pokeTypesArray[1].type['name']];
         var pokeTypes = type1 + " " + type2
       }
-      console.log(pokeTypes);
+      PokeNumName.insertAdjacentHTML("beforeend",'<p>'+pokeTypes+'</p>');
 
     });
 
@@ -63,13 +79,17 @@ $(function() {
     request_spe.addEventListener("load", function () {
       var res_spe = JSON.parse(this.responseText);
 
-      // ポケモンの日本語名を取得 find 関数をもっと勉強 *************************
-      var pokeNameJap = res_spe.names.find((v) => v.language.name == "ja")['name'];
-      console.log(pokeNameJap);
+      // id"pokeNumName"要素を取得
+      var PokeNumName = document.querySelector('#pokeNumName');
+      // id"pokeDscrpt"要素を取得
+      var PokeDscrpt = document.querySelector('#pokeDscrpt'); 
 
-      // ポケモンの分類を取得
+      // ポケモンの日本語名と分類を取得 find 関数をもっと勉強 *************************
+      var pokeNameJap = res_spe.names.find((v) => v.language.name == "ja")['name'];
       var pokeGenera = res_spe.genera.find((v) => v.language.name == "ja")['genus'];
-      console.log(pokeGenera);
+      var pokeNameGenera = pokeNameJap + ' / ' + pokeGenera
+      PokeNumName.insertAdjacentHTML("beforeend",'<p>'+pokeNameGenera+'</p>');
+      
 
       // 図鑑の説明文データを変数に格納
       var texts = res_spe.flavor_text_entries;
@@ -95,7 +115,8 @@ $(function() {
       };
       
       var text = flavorText[0]['flavor_text'];
-      console.log(text)
+      PokeDscrpt.insertAdjacentHTML("beforeend",'<p>'+text+'</p>');
+
     });
 
     
