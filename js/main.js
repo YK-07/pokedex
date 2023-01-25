@@ -1,20 +1,14 @@
 $(function() {
   $('#bth').on('click', function() {
     // name.jsで処理したポケモンの英語名を変数に入れる
-    var pokeNameEng = document.getElementById("pokename_en").innerHTML;
-    document.getElementById("pokename_en").style.display ="none";//英語名を隠す
+    var pokeNameEng = document.getElementById("pokeName_en").innerHTML;
+    document.getElementById("pokeName_en").style.display ="none";//英語名を隠す
 
     // ポケモンの基本データ用 url
     var url_base = "https://pokeapi.co/api/v2/pokemon/" + pokeNameEng + "/";
 
     // 図鑑用 url species:種族
     var url_spe = "https://pokeapi.co/api/v2/pokemon-species/" + pokeNameEng + "/";
-
-
-    //var target = document.querySelector('#pokeNumName');
-    //target.parentNode.removeChild(target);// 画像しか表示されなくなった
-    //var target = document.querySelector('#pokeDscrpt');
-    //target.parentNode.removeChild(target);    
 
     //基本データ受け取り base ********
     const request_base = new XMLHttpRequest();
@@ -24,15 +18,17 @@ $(function() {
       var res_base = JSON.parse(this.responseText);
 
       // id"pokeNumName"要素を取得
-      var PokeNumName = document.querySelector('#pokeNumName');
+      var pokeNumber = document.querySelector('#pokeNumber');
       // id"pokeImage"要素を取得
-      var PokeImage = document.querySelector('#pokeImage');
-      // id"pokeDscrpt"要素を取得
-      var PokeDscrpt = document.querySelector('#pokeDscrpt');
+      var pokeImage = document.querySelector('#pokeImage');
+      // id"pokeSize"要素を取得
+      var pokeSize = document.querySelector('#pokeSize');
+      // id"pokeType"要素を取得
+      var pokeType = document.querySelector('#pokeType');
 
       // ポケモンの画像を取得
       var image = '<img src="' + res_base.sprites.other['official-artwork'].front_default + '">';
-      PokeImage.innerHTML = image;
+      pokeImage.innerHTML = image;
 
       // ポケモンの番号を取得
       var number = String(res_base.id)
@@ -44,12 +40,12 @@ $(function() {
         var number = "No." + number;
       }
 
-      PokeNumName.insertAdjacentHTML("beforebegin",'<p>'+number+'</p>');
+      pokeNumber.innerHTML = number;
 
       // ポケモンの高さと重さを取得
       var height = String((res_base.height / 10).toFixed(1)) + "メートル";
       var weight = String((res_base.weight / 10).toFixed(1)) + "キログラム";
-      PokeDscrpt.insertAdjacentHTML("beforebegin",'<p>'+height+' / '+weight+'</p>');
+      pokeSize.innerHTML = "高さ：" + height + ' / ' + "重さ：" + weight;
 
       // ポケモンのタイプ、日本語と英語名
       typesList = {
@@ -62,13 +58,13 @@ $(function() {
       // ポケモンのタイプを取得
       var pokeTypesArray = res_base.types;
       if (pokeTypesArray.length == 1) {
-        var pokeTypes = typesList[pokeTypesArray[0].type['name']];
+        var PokeTypes = "タイプ：" + typesList[pokeTypesArray[0].type['name']];
       } else {
         var type1 = typesList[pokeTypesArray[0].type['name']];
         var type2 = typesList[pokeTypesArray[1].type['name']];
-        var pokeTypes = type1 + " " + type2
+        var PokeTypes = "タイプ：" + type1 + "・" + type2
       }
-      PokeNumName.insertAdjacentHTML("beforeend",'<p>'+pokeTypes+'</p>');
+      pokeType.innerHTML = PokeTypes;
 
     });
 
@@ -79,18 +75,17 @@ $(function() {
     request_spe.addEventListener("load", function () {
       var res_spe = JSON.parse(this.responseText);
 
-      // id"pokeNumName"要素を取得
-      var PokeNumName = document.querySelector('#pokeNumName');
+      // id"pokeName"要素を取得
+      var pokeName = document.querySelector('#pokeName');
       // id"pokeDscrpt"要素を取得
-      var PokeDscrpt = document.querySelector('#pokeDscrpt'); 
+      var pokeDscrpt = document.querySelector('#pokeDscrpt'); 
 
       // ポケモンの日本語名と分類を取得 find 関数をもっと勉強 *************************
       var pokeNameJap = res_spe.names.find((v) => v.language.name == "ja")['name'];
       var pokeGenera = res_spe.genera.find((v) => v.language.name == "ja")['genus'];
       var pokeNameGenera = pokeNameJap + ' / ' + pokeGenera
-      PokeNumName.insertAdjacentHTML("beforeend",'<p>'+pokeNameGenera+'</p>');
+      pokeName.innerHTML = pokeNameGenera;
       
-
       // 図鑑の説明文データを変数に格納
       var texts = res_spe.flavor_text_entries;
 
@@ -100,7 +95,6 @@ $(function() {
       });
 
       // ソードに出現しない可能性もあるので、その場合は別バージョンで取得。
-      
       if (flavorText.length == 0) {
         // バージョンをYで取得し直す.
         flavorText = texts.filter(function(v) {
@@ -115,10 +109,9 @@ $(function() {
       };
       
       var text = flavorText[0]['flavor_text'];
-      PokeDscrpt.insertAdjacentHTML("beforeend",'<p>'+text+'</p>');
+      pokeDscrpt.innerHTML = "【図鑑説明】<br>" + text;
 
     });
-
-    
+  
   });
 });
