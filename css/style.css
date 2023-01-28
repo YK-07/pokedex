@@ -1,0 +1,53 @@
+/* ヘッダー画像の装飾*/
+.headerImage {
+	top: 0;
+	left: 0;
+	width: 50%;
+	margin: 0 0 10px 0;
+	float: left;
+}
+
+h1 {
+	text-align: center;
+	font-size: 30px;
+}
+
+#inputForm {
+	text-align: center;
+}
+
+#inputName {
+	margin: 0 5px 0 0;
+}
+
+/* オートコンプリートの装飾 */
+.ui-autocomplete {
+    position: absolute;
+    list-style: none;
+    margin: 0;
+    padding: 0em 0.5em 0em 0.5em;
+    border: none;
+    border-radius: 8px;
+    cursor: default;
+    background-color: #ffffff;
+}
+
+/* オートコンプリートのメッセージを消す*/
+.ui-helper-hidden-accessible{
+    display: none;
+}
+
+.pokedex {
+	text-align: center;
+}
+
+#pokeMain {
+	text-align: center;
+}
+
+/* 図鑑説明の装飾*/
+#pokeDscrpt {
+	border:#ec59ba 3px double; /*境界線の指定*/
+	padding:10px;
+	display: inline-block;
+}

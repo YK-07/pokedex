@@ -1,3 +1,6 @@
+// 図鑑説明の囲みを隠しておく
+document.getElementById("pokeDscrpt").style.visibility ="hidden";
+
 $(function() {
   $('#bth').on('click', function() {
     // name.jsで処理したポケモンの英語名を変数に入れる
@@ -18,13 +21,11 @@ $(function() {
       var res_base = JSON.parse(this.responseText);
 
       // id"pokeNumName"要素を取得
-      var pokeNumber = document.querySelector('#pokeNumber');
+      var pokeNumberType = document.querySelector('#pokeNumberType');
       // id"pokeImage"要素を取得
       var pokeImage = document.querySelector('#pokeImage');
       // id"pokeSize"要素を取得
       var pokeSize = document.querySelector('#pokeSize');
-      // id"pokeType"要素を取得
-      var pokeType = document.querySelector('#pokeType');
 
       // ポケモンの画像を取得
       var image = '<img src="' + res_base.sprites.other['official-artwork'].front_default + '">';
@@ -40,12 +41,10 @@ $(function() {
         var number = "No." + number;
       }
 
-      pokeNumber.innerHTML = number;
-
       // ポケモンの高さと重さを取得
       var height = String((res_base.height / 10).toFixed(1)) + "メートル";
       var weight = String((res_base.weight / 10).toFixed(1)) + "キログラム";
-      pokeSize.innerHTML = "高さ：" + height + ' / ' + "重さ：" + weight;
+      pokeSize.innerHTML = "高さ：" + height + '　/　 ' + "重さ：" + weight;
 
       // ポケモンのタイプ、日本語と英語名
       typesList = {
@@ -55,7 +54,7 @@ $(function() {
         "dark":"あく","steel":"はがね","fairy":"フェアリー"
       }
       
-      // ポケモンのタイプを取得
+      // ポケモンのタイプを取得 タイプが一つと二つの場合分け
       var pokeTypesArray = res_base.types;
       if (pokeTypesArray.length == 1) {
         var PokeTypes = "タイプ：" + typesList[pokeTypesArray[0].type['name']];
@@ -64,7 +63,7 @@ $(function() {
         var type2 = typesList[pokeTypesArray[1].type['name']];
         var PokeTypes = "タイプ：" + type1 + "・" + type2
       }
-      pokeType.innerHTML = PokeTypes;
+      pokeNumberType.innerHTML = number +'　/　' + PokeTypes;
 
     });
 
@@ -78,12 +77,14 @@ $(function() {
       // id"pokeName"要素を取得
       var pokeName = document.querySelector('#pokeName');
       // id"pokeDscrpt"要素を取得
-      var pokeDscrpt = document.querySelector('#pokeDscrpt'); 
+      var pokeDscrpt = document.querySelector('#pokeDscrpt');
+      // 隠していた図鑑説明の囲みを元に戻す
+      document.getElementById("pokeDscrpt").style.visibility ="visible"; 
 
-      // ポケモンの日本語名と分類を取得 find 関数をもっと勉強 *************************
+      // ポケモンの日本語名と分類を取得 *************************
       var pokeNameJap = res_spe.names.find((v) => v.language.name == "ja")['name'];
       var pokeGenera = res_spe.genera.find((v) => v.language.name == "ja")['genus'];
-      var pokeNameGenera = pokeNameJap + ' / ' + pokeGenera
+      var pokeNameGenera = "【 "+ pokeNameJap +" 】" + '　/　' + pokeGenera
       pokeName.innerHTML = pokeNameGenera;
       
       // 図鑑の説明文データを変数に格納
@@ -109,7 +110,7 @@ $(function() {
       };
       
       var text = flavorText[0]['flavor_text'];
-      pokeDscrpt.innerHTML = "【図鑑説明】<br>" + text;
+      pokeDscrpt.innerHTML = "【図鑑説明】<br>" + text
 
     });
   

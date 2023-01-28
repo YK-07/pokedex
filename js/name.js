@@ -2,7 +2,13 @@
 $(function() {
     $('#bth').on('click', function() {
         var element = document.getElementById('pokeName_en');
-        element.innerHTML = nameList[$('#pokemonName').val()]
+        // 入力されたポケモンの名前が正しいかチェック
+        if ($('#inputName').val() in nameList) {
+            // poekeName_en要素を書き換え(htmlでは表示していない)、main.jsと連携させるために行う
+            element.innerHTML = nameList[$('#inputName').val()]
+        } else {
+            alert('カタカナで正しい名前を入力してください。(一部対応していないポケモンがいます。)')
+        }
     });
 });
 

@@ -6,23 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+<header>
+    <h1>ポケモン図鑑</h1>
+    <img src="img/pokemon_header_1.png" alt="ポケモンのヘッダー画像" class="headerImage">
+    <img src="img/pokemon_header_2.png" alt="ポケモンのヘッダー画像" class="headerImage">
+</header>
+
 <body>
-    <div>
-    <label>ポケモンの名前<input id="pokemonName" type="text" maxlength="6"></label>
+    <div id="inputForm">
+    <label>ポケモンの名前   <input id="inputName" type="text" maxlength="6"></label>
     <button id="bth">検索</button>
     </div>
     <div id="pokeName_en"></div>
     <div class="pokedex">
-        <div id="pokeNumber"></div>
+        <div id="pokeNumberType"></div>
         <div id="pokeName"></div>
-        <div id="pokeType"></div>
+    </div>
+    <div id="pokeMain">
         <div id="pokeImage"></div>
         <div id="pokeSize"></div>
+        <br>
         <div id="pokeDscrpt"></div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="js/name.js"></script>
-    <script src="js/main.js"></script>   
-    <!--<link rel="stylesheet" href="css/style.css">-->
+    <script src="js/main.js"></script>
+    <script src="js/nameComplete.js"></script>   
+    <link rel="stylesheet" href="css/style.css">
 </body>
 </html>
