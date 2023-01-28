@@ -51,10 +51,3 @@ h1 {
 	padding:10px;
 	display: inline-block;
 }
-
-@media screen and (max-width: 768px) { /* メディアクエリの場所 */
-  #pokeImage {
-	width: 450px;
-	height: 450px;
-  }
-}
